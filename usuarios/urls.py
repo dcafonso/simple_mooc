@@ -5,6 +5,8 @@ from usuarios.views import (
     dashboard,
     edit_cadastro,
     edit_senha,
+    password_reset,
+    password_reset_confirm
 )
 
 
@@ -20,4 +22,8 @@ urlpatterns = [
             name='usuarios_edit'),
     re_path(r'^editar-senha/$', edit_senha,
             name='usuarios_edit_senha'),
+    re_path(r'^resetar-senha/$', password_reset,
+            name='usuarios_reset_senha'),
+    re_path(r'^confirmar-senha/(?P<key>\w+)/$', password_reset_confirm,
+            name='usuarios_confirmar_senha'),
 ]

@@ -1,6 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    PasswordChangeForm,
+)
 from django.contrib.auth import get_user_model
+from core.mail import envia_email_template
+from core.utils import generate_hash_key
+from .models import PasswordReset
 
 User = get_user_model()
 
@@ -28,6 +34,32 @@ class RegistroForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+
+
+class PasswordResetForm(forms.Form):
+    email = forms.EmailField(label='E-mail')
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            return email
+        raise forms.ValidationError(
+            'Nenhum usuário foi encontrado com este E-mail !'
+        )
+
+    def save(self):
+        user = User.objects.get(email=self.cleaned_data['email'])
+        key = generate_hash_key(user.username)
+        reset = PasswordReset(key=key, user=user)
+        reset.save()
+
+        context = {
+            'reset': reset,
+        }
+
+        envia_email_template(
+            'Nova Senha', 'mail_password_reset.html', context, [user.email]
+        )
 
 
 class EditCadastroForm(forms.ModelForm):
