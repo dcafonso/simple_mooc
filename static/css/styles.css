@@ -1,0 +1,145 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+body {
+    margin: 0 auto;
+    line-height: 1.7em;
+}
+.l-box {
+    padding: 1em;
+}
+.header {
+    margin: 0 0;
+}
+.header .pure-menu {
+    padding: 0.5em;
+    background-color: #111;
+}
+.header .pure-menu-selected a {
+    color: #fff;
+}
+.header .pure-menu li a:hover,
+.header .pure-menu li a:focus {
+    background: none;
+    border: none;
+    color: #fff;
+}
+.header .pure-menu-heading {
+    float: left;
+    color: #eee;
+}
+.header ul {
+    float: right;
+}
+.home-menu {
+    padding: 0.5em;
+    text-align: left;
+    box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+}
+body .primary-button {
+    background: #02a6eb;
+    color: #fff;
+}
+.splash {
+    margin: 2em auto 0;
+    padding: 3em 0.5em;
+    background: #eee;
+}
+.splash .splash-head {
+    font-size: 300%;
+    margin: 0em 0;
+    line-height: 1.2em;
+}
+.splash .splash-subhead {
+    color: #999;
+    font-weight: 300;
+    line-height: 1.4em;
+}
+.splash .primary-button {
+    font-size: 150%;
+}
+.content {
+    padding-top: 2em;
+}
+.content .content-subhead {
+    color: #999;
+    padding-bottom: 0.3em;
+    text-transform: uppercase;
+    margin: 0;
+    border-bottom: 2px solid #eee;
+    display: inline-block;
+}
+.content .content-ribbon {
+    margin: 3em;
+    border-bottom: 1px solid #eee;
+}
+.ribbon {
+    background: #eee;
+    text-align: center;
+    padding: 2em;
+    color: #999;
+}
+.ribbon h2 {
+    display: inline;
+    font-weight: normal;
+}
+.footer {
+    background: #111;
+    color: #666;
+    text-align: center;
+    padding: 1em;
+    font-size: 80%;
+}
+ul.errorlist {
+    margin: 0;
+    padding: 0;
+}
+ul.errorlist li {
+    color: #C53F3F;
+    display: block;
+    margin: 0.3em 0;
+    font-size: 0.9em;
+    border: none;
+    padding: 0;
+}
+
+form.pure-form-aligned ul.errorlist li {
+    padding-left: 11.5em;
+}
+.pure-form label {
+    margin: 1em 0 0;
+    font-weight: bold;
+    font-size: 100%;
+}
+.pure-form input[type], textarea, select {
+    border: 2px solid #ddd;
+    box-shadow: none;
+    font-size: 100%;
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 0.3em;
+}
+.pure-form textarea {
+    max-width: 450px;
+}
+.pure-form .pure-control-group {
+    margin-bottom: 1em;
+}
+.inner {
+    padding: 0em 1em;
+}
+.inner p {
+    margin-top: 0;
+}
+ul.breadcrumb {
+    padding: 0;
+}
+ul.breadcrumb li {
+    display: inline-block;
+}
+ul.breadcrumb li a {
+    display: inline-block;
+    padding: 0.3em 0.7em;
+}

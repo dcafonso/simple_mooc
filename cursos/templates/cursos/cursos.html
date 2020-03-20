@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+    {% block main %}
+        <div class="content">
+            <div class="header">
+                <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
+                    <a class="pure-menu-heading" href="{% url 'core_home' %}">SIMPLE MOOC</a>
+                    <ul>
+                        <li><a href="{% url 'core_home' %}">Início</a></li>
+                        <li class="pure-menu-selected"><a href="{% url 'cursos_curso' %}">Cursos</a></li>
+                        <li><a href="{% url 'core_contato' %}">Contato</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'usuarios_dashboard' %}">Painel</a></li>
+                            <li><a href="{% url 'usuarios_logout' %}">Sair</a></li>
+                        {% else %}
+                            <li><a href="{% url 'usuarios_login' %}">Entrar</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pure-g-r content-ribbon">
+                <div class="pure-u-1">
+                    <div class="l-box">
+                        <h4 class="content-subhead">Listagem de Cursos do SimpleMOOC</h4>
+                        <p>Abaixo a lista de cursos disponíveis na plataforma</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% for curso in cursos %}
+            <div class="pure-g-r content-ribbon">
+                <div class="pure-u-1-3">
+                    <div class="l-box">
+                        <a href="{{ curso.get_absolute_url }}">
+                            {% if curso.imagem %}
+                                <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}">
+                            {% else %}
+                                <img src="{% static 'img/imagem-curso.png' %}" alt="{{ curso.nome }}">
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="pure-u-2-3">
+                    <div class="l-box">
+                        <h4 class="content-subhead"><a href="{{ curso.get_absolute_url }}" title="">{{ curso.nome }}</a></h4>
+                        {{ curso.descricao|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% endblock main %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+    {% block main %}
+        <div class="content">
+            <div class="header">
+                <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
+                    <a class="pure-menu-heading" href="{% url 'core_home' %}">SIMPLE MOOC</a>
+                    <ul>
+                        <li><a href="{% url 'core_home' %}">Início</a></li>
+                        <li><a href="{% url 'cursos_curso' %}">Cursos</a></li>
+                        <li><a href="{% url 'core_contato' %}">Contato</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'usuarios_dashboard' %}">Painel</a></li>
+                            <li class="pure-menu-selected"><a href="{% url 'usuarios_logout' %}">Sair</a></li>
+                        {% else %}
+                            <li class="pure-menu-selected"><a href="{% url 'usuarios_login' %}">Entrar</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pure-g-r content-ribbon">
+                <div class="pure-u-1">
+                    <h2>Informe seu Login</h2>
+                    <form class="pure-form pure-form-aligned" method="post">
+                        {% csrf_token %}
+
+                        <fieldset>
+                            {{ form.non_field_errors }}
+
+                            {% for field in form %}
+                                <div class="pure-control-group">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {{ field.errors }}
+                                </div>
+                            {% endfor %}
+
+                            <div class="pure-controls">
+                                <button type="submit" class="pure-button pure-button-primary">Entrar</button>
+                            </div>
+                        </fieldset>
+                        <p>
+                            Não é cadastrado ? <a href="{% url 'usuarios_registro' %}" title="">Cadastre-se</a> <br />
+                            Esqueceu a senha ? <a href="" title="">Nova Senha</a> <br />
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endblock main %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+    {% block main %}
+        <div class="content">
+            <div class="header">
+                <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
+                    <a class="pure-menu-heading" href="{% url 'core_home' %}">SIMPLE MOOC</a>
+
+                    <ul>
+                        <li class="pure-menu-selected"><a href="{% url 'core_home' %}">Início</a></li>
+                        <li><a href="{% url 'cursos_curso' %}">Cursos</a></li>
+                        <li><a href="{% url 'core_contato' %}">Contato</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'usuarios_dashboard' %}">Painel</a></li>
+                            <li><a href="{% url 'usuarios_logout' %}">Sair</a></li>
+                        {% else %}
+                            <li><a href="{% url 'usuarios_login' %}">Entrar</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="splash">
+                <div class="pure-g-r">
+                    <div class="pure-u-1">
+                        <div class="l-box splash-text">
+                            <h1 class="splash-head">
+                                Uma Simples Plataforma de Ensino a Distância
+                            </h1>
+                            <h2 class="splash-subhead">
+                                O Simple MOOC visa simplificar o ensino a distância, provendo ferramentas objetivas e de fácil uso para cursos a distância.
+                            </h2>
+                            <p>
+                                <a href="#" class="pure-button primary-button">Saiba mais</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                {% for curso in cursos %}
+                    <div class="pure-g-r content-ribbon">
+                        <div class="pure-u-1-3">
+                            <div class="l-box">
+                                {% if curso.imagem %}
+                                    <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}">
+                                {% else %}
+                                    <img src="{% static 'img/imagem-curso.png' %}" alt="{{ curso.nome }}">
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="pure-u-2-3">
+                            <div class="l-box">
+                                <h4 class="content-subhead">{{ curso.nome }}</h4>
+                                {{ curso.descricao|linebreaks }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock main %}
