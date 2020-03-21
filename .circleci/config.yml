@@ -12,12 +12,10 @@ jobs:
       - python/load-cache
       - python/install-deps
       - python/save-cache      
-    steps:
       - run:
-        name: run server
-        command: |
-          python manage.py runserver 8000
-        background: true
+          name: run server
+          command: python manage.py runserver 8000
+          background: true
 
 workflows:
   main:
