@@ -7,10 +7,10 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.7.3
-        environment:
-            PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
       - python/load-cache
       - run:
           name: pip upgrade
