@@ -13,10 +13,9 @@ jobs:
       - python/install-deps
       - run:
           name: run server
-          command: |
-            python manage.py runserver 0.0.0.0:8000
+          command: python manage.py runserver 8000
           background: true
-      - python/save-cache      
+      - python/save-cache
 
 workflows:
   main:
