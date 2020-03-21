@@ -10,14 +10,14 @@ jobs:
     steps:
       - checkout
       - python/load-cache
-    run:
-      name: install dependencies
+     - run:
+        name: install dependencies
           - python/install-deps
           - python/save-cache
-    run:
-      name: run server
-      command: python manage.py runserver 8000
-      background: true
+     - run:
+        name: run server
+        command: python manage.py runserver 8000
+        background: true
 
 workflows:
   main:
