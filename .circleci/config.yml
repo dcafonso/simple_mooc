@@ -9,7 +9,9 @@ jobs:
       - image: circleci/python:3.7.3
     steps:
       - checkout
-      - run: sudo chown -R circleci:circleci /usr
+      - run: sudo chown -R circleci:circleci /usr/local
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
       - python/load-cache
       - python/save-cache
       - run:
