@@ -12,7 +12,7 @@ jobs:
       - python/load-cache
       - run:
           name: pip upgrade
-          command: pip install --upgrade pip
+          command: pip install --user --upgrade pip
       - python/install-deps
       - run:
           name: run server
