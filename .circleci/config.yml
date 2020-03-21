@@ -7,6 +7,8 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.7.3
+        environment:
+            PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
       - python/load-cache
@@ -17,7 +19,7 @@ jobs:
       - run:
           name: run server
           command: |
-            python manage.py runserver localhost:8000
+            python manage.py runserver
           background: true
           ports: 
               - "8000"
