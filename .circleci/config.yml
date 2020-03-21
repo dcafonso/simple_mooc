@@ -17,7 +17,7 @@ jobs:
       - run:
           name: run server
           command: |
-            ./manage.py runserver 8000
+            ./manage.py runserver localhost:8000
           background: true
       - python/save-cache
 
