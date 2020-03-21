@@ -10,8 +10,16 @@ jobs:
     steps:
       - checkout
       - python/load-cache
-      - python/install-deps
-      - python/save-cache
+    run:
+      name: install dependencies
+        command: |
+          venv/bin/activate
+          - python/install-deps
+          - python/save-cache
+    run:
+      name: run server
+      command: python manage.py runserver 8000
+      background: true
 
 workflows:
   main:
