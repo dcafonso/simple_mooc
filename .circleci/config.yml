@@ -14,8 +14,7 @@ jobs:
       - run:
           name: run server
           command: |
-            . venv/bin/activate
-            python manage.py runserver 8000
+            python3 manage.py runserver 8000
           background: true
       - python/save-cache
 
