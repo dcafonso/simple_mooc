@@ -17,7 +17,7 @@ jobs:
       - run:
           name: run server
           command: |
-            python3 manage.py runserver 8000
+            gunicorn simplemooc.wsgi:application --bind=127.0.0.1:8000 --pid=gunicorn.txt --daemon
           background: true
       - python/save-cache
 
