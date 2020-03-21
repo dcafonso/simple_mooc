@@ -19,6 +19,8 @@ jobs:
           command: |
             python manage.py runserver localhost:8000
           background: true
+          ports: 
+              - "8000"
       - python/save-cache
 
 workflows:
