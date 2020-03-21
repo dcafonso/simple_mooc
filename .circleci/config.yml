@@ -14,8 +14,8 @@ jobs:
       - run:
           name: run server
           command: |
-            set -eo pipefail
-            python3 manage.py runserver localhost:8000
+            set +eo pipefail
+            python3 manage.py runserver 8000
           background: true
       - python/save-cache
 
