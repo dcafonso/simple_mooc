@@ -10,11 +10,13 @@ jobs:
     steps:
       - checkout
       - python/load-cache
+      - run:
+          name: pip upgrade
+          command: pip install --upgrade pip
       - python/install-deps
       - run:
           name: run server
           command: |
-            set +eo pipefail
             python3 manage.py runserver 8000
           background: true
       - python/save-cache
