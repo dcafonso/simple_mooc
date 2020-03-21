@@ -12,6 +12,8 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
+      - run: sudo chown -R circleci:circleci /tmp/
+      - run: sudo chown -R circleci:circleci ~/project
       - python/load-cache
       - python/save-cache
       - run:
