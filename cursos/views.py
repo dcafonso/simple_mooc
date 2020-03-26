@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Curso
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Curso, InscricaoCurso
 from .forms import ContatoCurso
 
 
@@ -26,3 +28,18 @@ def detalhe_curso(request, slug):
     contexto['form'] = form
 
     return render(request, 'cursos/detalhe_curso.html', contexto)
+
+
+@login_required
+def inscricao_curso(request, slug):
+    curso = get_object_or_404(Curso, slug=slug)
+    inscricao, created = InscricaoCurso.objects.get_or_create(
+        user=request.user,
+        curso=curso
+    )
+    if created:
+        inscricao.active()
+        messages.success(request, 'Inscrição efetuada com sucesso.')
+    else:
+        messages.info(request, 'Você já está inscrito neste curso.')
+    return redirect('usuarios_dashboard')

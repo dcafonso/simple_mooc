@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import (
@@ -11,6 +12,7 @@ from .forms import (
     PasswordChangeForm,
     PasswordResetForm,
 )
+from cursos.models import InscricaoCurso
 from .models import PasswordReset
 
 User = get_user_model()
@@ -18,7 +20,10 @@ User = get_user_model()
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    context = {
+        'incricoes': InscricaoCurso.objects.filter(user=request.user)
+    }
+    return render(request, 'dashboard.html', context)
 
 
 def register(request):
@@ -49,8 +54,8 @@ def edit_cadastro(request):
         form = EditCadastroForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            form = EditCadastroForm(instance=request.user)
-            context['success'] = True
+            messages.success(request, 'Os dados foram alterados com sucesso.')
+            return redirect('usuarios_dashboard')
     else:
         form = EditCadastroForm(instance=request.user)
     context['form'] = form
