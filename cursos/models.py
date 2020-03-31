@@ -117,3 +117,32 @@ class Comentario(models.Model):
         verbose_name = 'Comentário'
         verbose_name_plural = 'Comentários'
         ordering = ['created_at']
+
+
+def post_save_anuncios(instance, created, **kwargs):
+    if created:
+        assunto = instance.titulo
+
+        context = {
+            'anuncio': instance
+        }
+
+        inscricoes = InscricaoCurso.objects.filter(
+            curso=instance.curso,
+            status=1
+        )
+        for inscricao in inscricoes:
+            lista_emails = [inscricao.user.email]
+        envia_email_template(
+            assunto,
+            'cursos/email_anuncios.html',
+            context,
+            lista_emails
+        )
+
+
+models.signals.post_save.connect(
+    post_save_anuncios,
+    sender=AnunciosCurso,
+    dispatch_uid='post_save_anuncios'
+)
