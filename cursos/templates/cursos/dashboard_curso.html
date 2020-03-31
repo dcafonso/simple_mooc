@@ -1,0 +1,18 @@
+{% extends "dashboard.html" %}
+{% load static %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li>/</li>
+    <li><a href="{% url 'cursos_anuncios' curso.slug %}">{{ curso }}</a></li>
+{% endblock %}
+
+{% block menu_options %}
+    <li class="pure-menu-heading">{{ curso }}</li>
+    <li><a href="#"><i class="icon-camera"></i> Aulas e Materiais</a></li>
+    <li><a href="#"><i class="icon-info-sign"></i> Informações</a></li>
+    <li><a href="#"><i class="icon-tasks"></i> Anúncios</a></li>
+    <li><a href="#"><i class="fa fa-comments"></i> Fórum de Dúvidas</a></li>
+
+    {{ block.super }}
+{% endblock %}

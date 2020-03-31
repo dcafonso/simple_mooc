@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import (
     Curso,
+    InscricaoCurso,
+    AnunciosCurso,
+    Comentario,
 )
 
 
@@ -11,3 +14,4 @@ class CursoAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Curso, CursoAdmin)
+admin.site.register([InscricaoCurso, AnunciosCurso, Comentario])

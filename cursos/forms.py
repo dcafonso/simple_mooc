@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from core.mail import envia_email_template
+from .models import Comentario
 
 
 class ContatoCurso(forms.Form):
@@ -23,3 +24,9 @@ class ContatoCurso(forms.Form):
             [settings.EMAIL_CONTATO],
             settings.DEFAULT_FROM_EMAIL,
         )
+
+
+class ComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ['comentario']
