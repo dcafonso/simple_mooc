@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
+from django.utils import timezone
 from core.mail import envia_email_template
 
 
@@ -28,11 +29,69 @@ class Curso(models.Model):
 
     objects = CursoManager()
 
+    def aulas_liberadas(self):
+        today = timezone.now().date()
+        return self.aulas.filter(data_liberacao__gte=today)
+
     def __str__(self):
         return self.nome
 
     def get_absolute_url(self):
         return reverse('cursos_detalhe', args=[self.slug])
+
+
+class Aula(models.Model):
+    titulo = models.CharField('Título', max_length=100)
+    descricao = models.CharField('Descrição', max_length=150, blank=True)
+    nro_aula = models.IntegerField('Nro. Aula', blank=True, default=0)
+    data_liberacao = models.DateField('Data Liberação', blank=True, null=True)
+    curso = models.ForeignKey(
+        Curso,
+        verbose_name='Curso',
+        related_name='aulas',
+        on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField('Criado em', auto_now_add=True)
+    updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+    def is_disponivel(self):
+        if self.data_liberacao:
+            today = timezone.now().date()
+            return self.data_liberacao >= today
+
+    def __str__(self):
+        return self.titulo
+
+    class Meta:
+        verbose_name = 'Aula'
+        verbose_name_plural = 'Aulas'
+        ordering = ['nro_aula']
+
+
+class Material(models.Model):
+    nome = models.CharField('Nome', max_length=100)
+    embedded = models.TextField('Mídia', blank=True)
+    arquivo = models.FileField(
+        upload_to='aulas/materiais',
+        blank=True,
+        null=True
+    )
+    aula = models.ForeignKey(
+        Aula,
+        verbose_name='Aula',
+        related_name='materiais',
+        on_delete=models.CASCADE
+    )
+
+    def is_embedded(self):
+        return bool(self.embedded)
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        verbose_name = 'Material'
+        verbose_name_plural = 'Materiais'
 
 
 class InscricaoCurso(models.Model):

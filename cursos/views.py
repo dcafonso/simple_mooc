@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Curso, InscricaoCurso
+from .models import Curso, InscricaoCurso, Aula, Material
 from .forms import ContatoCurso, ComentarioForm
+from .decorators import inscricao_required
 
 
 def cursos(request):
@@ -65,18 +66,9 @@ def cancela_inscricao(request, slug):
 
 
 @login_required
+@inscricao_required
 def anuncios_curso(request, slug):
-    curso = get_object_or_404(Curso, slug=slug)
-
-    if not request.user.is_staff:
-        inscricao = get_object_or_404(
-            InscricaoCurso,
-            user=request.user,
-            curso=curso
-        )
-        if not inscricao.is_aprovado():
-            messages.error(request, 'Sua inscrição está pendente!')
-            return redirect('usuarios_dashboard')
+    curso = request.curso
 
     context = {
         'curso': curso,
@@ -87,19 +79,9 @@ def anuncios_curso(request, slug):
 
 
 @login_required
+@inscricao_required
 def mostrar_anuncios_curso(request, slug, pk):
-    curso = get_object_or_404(Curso, slug=slug)
-
-    if not request.user.is_staff:
-        inscricao = get_object_or_404(
-            InscricaoCurso,
-            user=request.user,
-            curso=curso
-        )
-        if not inscricao.is_aprovado():
-            messages.error(request, 'Sua inscrição está pendente')
-            return redirect('usuarios_dashboard')
-
+    curso = request.curso
     anuncios = get_object_or_404(curso.anuncios.all(), pk=pk)
 
     form = ComentarioForm(request.POST or None)
@@ -117,3 +99,61 @@ def mostrar_anuncios_curso(request, slug, pk):
         'form': form,
     }
     return render(request, 'cursos/mostrar_anuncios_curso.html', context)
+
+
+@login_required
+@inscricao_required
+def aulas(request, slug):
+    curso = request.curso
+    aulas = curso.aulas_liberadas()
+    if request.user.is_staff:
+        aulas = curso.aulas.all()
+    context = {
+        'curso': curso,
+        'aulas': aulas
+    }
+    return render(request, 'cursos/aulas.html', context)
+
+
+@login_required
+@inscricao_required
+def acessar_aula(request, slug, pk):
+    curso = request.curso
+    aula = get_object_or_404(Aula, pk=pk, curso=curso)
+    if not request.user.is_staff and not aula.is_disponivel():
+        messages.error(request, 'Esta aula não está disponível.')
+        redirect('cursos_aulas', slug=curso.slug)
+
+    context = {
+        'curso': curso,
+        'aula': aula
+    }
+
+    return render(request, 'cursos/acessa_aula.html', context)
+
+
+@login_required
+@inscricao_required
+def material(request, slug, pk):
+    curso = request.curso
+    material = get_object_or_404(
+        Material,
+        pk=pk,
+        aula__curso=curso
+    )
+    aula = material.aula
+
+    if not request.user.is_staff and not aula.is_disponivel():
+        messages.error(request, 'Este material não está disponível.')
+        redirect('cursos_aulas', slug=curso.slug, pk=aula.pk)
+
+    if not material.is_embedded():
+        return redirect(material.arquivo.url)
+
+    context = {
+        'curso': curso,
+        'aula': aula,
+        'material': material,
+    }
+
+    return render(request, 'cursos/material.html', context)

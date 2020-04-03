@@ -1,6 +1,12 @@
 {% extends "cursos/dashboard_curso.html" %}
 {% load static %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li>/</li>
+    <li><a href="{% url 'cursos_anuncios' curso.slug %}">Anúncios</a></li>
+{% endblock %}
+
 {% block dashboard_content %}
     {% for anuncio in anuncios %}
         <div class="well">

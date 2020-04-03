@@ -6,7 +6,10 @@ from .views import (
     inscricao_curso,
     anuncios_curso,
     mostrar_anuncios_curso,
-    cancela_inscricao
+    cancela_inscricao,
+    aulas,
+    acessar_aula,
+    material
 )
 
 
@@ -18,9 +21,15 @@ urlpatterns = [
             name='cursos_inscricao'),
     re_path(r'cancela_inscricao/(?P<slug>[\w_-]+)/$', cancela_inscricao,
             name='cursos_cancela_inscricao'),
-    re_path(r'anuncios/(?P<slug>[\w_-]+)/$', anuncios_curso,
+    re_path(r'(?P<slug>[\w_-]+)/anuncios/$', anuncios_curso,
             name='cursos_anuncios'),
-    re_path(r'anuncios/(?P<slug>[\w_-]+)/(?P<pk>\d+)/$',
+    re_path(r'(?P<slug>[\w_-]+)/anuncios/(?P<pk>\d+)/$',
             mostrar_anuncios_curso,
             name='cursos_mostra_anuncios'),
+    re_path(r'(?P<slug>[\w_-]+)/aulas/$', aulas,
+            name='cursos_aulas'),
+    re_path(r'(?P<slug>[\w_-]+)/aulas/(?P<pk>\d+)/$', acessar_aula,
+            name='cursos_acessa_aula'),
+    re_path(r'(?P<slug>[\w_-]+)/aulas/material/(?P<pk>\d+)/$', material,
+            name='cursos_material'),
 ]
