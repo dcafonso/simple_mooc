@@ -1,0 +1,13 @@
+{% extends "dashboard.html" %}
+{% load static %}
+
+{% block dashboard_content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3>Você deseja realmente cancelar a inscrição deste curso?</h3>
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">Confirmar</button>
+            <a href="{% url 'usuarios_dashboard' %}" class="pure-button">Voltar</a>
+        </div>
+    </form>
+{% endblock %}

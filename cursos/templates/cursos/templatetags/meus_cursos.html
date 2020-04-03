@@ -1,0 +1,11 @@
+<li class="pure-menu-heading">Cursos</li>
+{% for inscricao in inscricoes %}
+    <li>
+        <a href="{% url 'cursos_anuncios' inscricao.curso.slug %}">
+            <i class="icon-book"></i>
+            {{ inscricao.curso }}
+        </a>
+    </li>
+{% empty %}
+    <li><a> Nenhum curso encontrado ! </a></li>
+{% endfor %}

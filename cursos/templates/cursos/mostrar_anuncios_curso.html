@@ -1,0 +1,52 @@
+{% extends "cursos/dashboard_curso.html" %}
+{% load static %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li>/</li>
+    <li><a href="{% url 'cursos_anuncios' curso.slug %}">Anúncios</a></li>
+    <li>/</li>
+    <li><a href="{% url 'cursos_mostra_anuncios' curso.slug anuncios.pk %}">{{ anuncios.titulo }}</a></li>
+{% endblock %}
+
+{% block dashboard_content %}
+    <div class="well">
+        <h2>{{ anuncios.titulo }}</h2>
+        {{ anuncios.conteudo|linebreaks }}
+    </div>
+
+    <div class="well">
+        <h4 id="comments">Comentários <a class="fright" href="#add_comment">Comentar</a></h4>
+        <hr />
+
+        {% for comentarios in anuncios.comentarios.all %}
+            <p>
+                <strong>{{ comentarios.user }}</strong> disse à {{ comentarios.created_at|timesince }} atrás <br />
+                {{ comentarios.comentario|linebreaksbr }}
+            </p>
+            <hr />
+        {% empty %}
+            <p>Nenhum comentário para este anúncio</p>
+        {% endfor %}
+
+        <form method="POST" class="pure-form pure-form-stacked" id="add_comment">
+            {% csrf_token %}
+
+            <fieldset>
+                {{ form.non_field_errors }}
+
+                {% for field in form %}
+                    <div class="pure-control-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+
+                <div class="pure-controls">
+                    <button type="submit" class="pure-button pure-button-primary">Enviar</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
