@@ -3,3 +3,10 @@ venv
 .vscode
 *.sqlite3
 *.pyc
+__pycache__
+core/__pycache__
+core/migrations
+cursos/__pycache__
+cursos/migrations
+usuarios/__pycache__
+usuarios/migrations
