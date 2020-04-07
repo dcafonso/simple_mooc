@@ -155,5 +155,3 @@ AUTH_USER_MODEL = 'usuarios.User'
 DATABASES['default'] = dj_database_url.config()
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORMARDED_PROTO', 'https')
-
-DISABLE_COLLECTSTATIC=1
