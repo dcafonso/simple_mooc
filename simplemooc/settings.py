@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +26,7 @@ SECRET_KEY = 'amldzbc_bzmfahc(3sw952#bz8hy&pzkqq*c0h-vlc4rr5g10b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', ]
+ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1', ]
 
 
 # Application definition
@@ -148,3 +149,8 @@ LOGIN_URL = 'usuarios_login'
 LOGIN_REDIRECT_URL = 'core_home'
 LOGOUT_URL = 'usuarios_logout'
 AUTH_USER_MODEL = 'usuarios.User'
+
+# Heroku settings
+DATABASES['default'] = dj_database_url.config()
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORMARDED_PROTO', 'https')

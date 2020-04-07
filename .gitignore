@@ -12,3 +12,4 @@ cursos/tests/__pycache__
 cursos/migrations
 usuarios/__pycache__
 usuarios/migrations
+staticfiles
