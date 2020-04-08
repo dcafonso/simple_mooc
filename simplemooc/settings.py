@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import dj_database_url
+from dj_database_url import parse as dburl
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,7 +27,12 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1', 'simplemooc-cursos.herokuapp.com']
+ALLOWED_HOSTS = [
+    '*',
+    'localhost',
+    '127.0.0.1',
+    'simplemoocwebcursos.herokuapp.com'
+]
 
 
 # Application definition
@@ -78,11 +83,12 @@ WSGI_APPLICATION = 'simplemooc.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# default_dburl -> usada para trabalhar localmente.
+default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+
+# procura primeiramente pela variável de ambiente DATABASE_URL
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': config('DATABASE_URL', default=default_dburl, cast=dburl)
 }
 
 
@@ -150,8 +156,5 @@ LOGIN_URL = 'usuarios_login'
 LOGIN_REDIRECT_URL = 'core_home'
 LOGOUT_URL = 'usuarios_logout'
 AUTH_USER_MODEL = 'usuarios.User'
-
-# Heroku settings
-DATABASES['default'] = dj_database_url.config()
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORMARDED_PROTO', 'https')
