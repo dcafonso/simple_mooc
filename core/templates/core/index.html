@@ -3,24 +3,6 @@
 
     {% block main %}
         <div class="content">
-            <div class="header">
-                <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
-                    <a class="pure-menu-heading" href="{% url 'core_home' %}">SIMPLE MOOC</a>
-
-                    <ul>
-                        <li class="pure-menu-selected"><a href="{% url 'core_home' %}">Início</a></li>
-                        <li><a href="{% url 'cursos_curso' %}">Cursos</a></li>
-                        <li><a href="{% url 'core_contato' %}">Contato</a></li>
-                        {% if user.is_authenticated %}
-                            <li><a href="{% url 'usuarios_dashboard' %}">Painel</a></li>
-                            <li><a href="{% url 'usuarios_logout' %}">Sair</a></li>
-                        {% else %}
-                            <li><a href="{% url 'usuarios_login' %}">Entrar</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-
             <div class="splash">
                 <div class="pure-g-r">
                     <div class="pure-u-1">

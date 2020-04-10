@@ -10,4 +10,5 @@ cursos/__pycache__
 cursos/templatetags/__pycache__
 cursos/tests/__pycache__
 usuarios/__pycache__
+forum/__pycache__
 staticfiles
