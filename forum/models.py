@@ -1,10 +1,12 @@
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from taggit.managers import TaggableManager
 
 
 class Topicos(models.Model):
     titulo = models.CharField('Título', max_length=100)
+    slug = models.SlugField('Identificador', max_length=100, unique=True)
     conteudo = models.TextField('Mensagem')
     autor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -20,6 +22,9 @@ class Topicos(models.Model):
 
     def __str__(self):
         return self.titulo
+
+    def get_absolute_url(self):
+        return reverse('forum_topico', args=[self.slug])
 
     class Meta:
         verbose_name = 'Tópico'

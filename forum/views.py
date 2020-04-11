@@ -1,4 +1,7 @@
-from django.views.generic import ListView
+from django.views.generic import (
+    ListView,
+    DetailView,
+)
 from .models import (
     Topicos,
 )
@@ -16,6 +19,10 @@ class ForumView(ListView):
         elif order == 'repostas':
             queryset = queryset.order_by('-resposta')
 
+        tag = self.kwargs.get('tag', '')
+        if tag:
+            queryset = queryset.filter(tags__slug__icontains=tag)
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -24,4 +31,15 @@ class ForumView(ListView):
         return context
 
 
+class TopicoView(DetailView):
+    model = Topicos
+    template_name = 'forum/topico.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TopicoView, self).get_context_data(**kwargs)
+        context['tags'] = Topicos.tags.all()
+        return context
+
+
 index = ForumView.as_view()
+topico = TopicoView.as_view()

@@ -8,6 +8,7 @@ from .models import (
 class TopicoAdmin(admin.ModelAdmin):
     list_display = ['titulo', 'autor', 'created_at', 'updated_at']
     search_fields = ['titulo', 'autor']
+    prepopulate_fields = {'slug': ('titulo',)}
 
 
 class RespostaAdmin(admin.ModelAdmin):
